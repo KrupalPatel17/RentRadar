@@ -1,0 +1,67 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Light background color */
+    color: #333; /* Dark text color for readability */
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Unified Theme Colors */
+.primary-color {
+    color: #009688; /* Example primary color */
+}
+
+.secondary-color {
+    color: #A569BD; /* Example secondary color */
+}
+
+/* Button Styles */
+button {
+    background-color: #009688;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #00796B;
+    transform: scale(1.05);
+}
+
+/* Input Styles */
+input, select {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #009688;
+    outline: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    button {
+        width: 100%;
+    }
+}
