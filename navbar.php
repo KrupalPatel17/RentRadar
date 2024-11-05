@@ -2,8 +2,8 @@
 
 if (isset($_POST['btnlogout'])) {
   
-    unset($_SESSION['owner_name']);
-    unset($_SESSION['owner_id']);
+    unset($_SESSION['user_name']);
+    unset($_SESSION['users_id']);
     header("location:login.php");
 }
 ?>
@@ -29,6 +29,7 @@ if (isset($_POST['btnlogout'])) {
             background-color: #ffffff95;
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
             padding: 10px 20px;
+            margin-bottom: 1%;
         }
 
         .navbar-brand {
@@ -129,10 +130,10 @@ if (isset($_POST['btnlogout'])) {
 <form action="" method="POST">
     <nav class="navbar fixed-top border-bottom">
         <div class="container-fluid">
-            <a class="navbar-brand" href="owner_home.php">RentRadar</a>
+            <a class="navbar-brand" href="home.php">RentRadar</a>
             <div class="d-flex align-items-center">
                 <i class="fas fa-user-circle profile-icon"></i>
-                <span class="username">Hi, <?php echo $_SESSION['owner_name'] ?></span>
+                <span class="username">Hi, <?php echo $_SESSION['user_name'] ?></span>
                 <button class="navbar-toggler ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -145,19 +146,19 @@ if (isset($_POST['btnlogout'])) {
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="owner_home.php"><i class="fas fa-home"></i> Home</a>
+                            <a class="nav-link" aria-current="page" href="home.php"><i class="fas fa-home"></i> Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="owner_listed.php"><i class="fas fa-list"></i> Listed</a>
+                            <a class="nav-link" href="watchlist.php"><i class="fa-solid fa-eye"></i> Watch List</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="owner_status.php"><i class="fas fa-users"></i> Status</a>
+                            <a class="nav-link" href="#"><i class="fas fa-users"></i> Status</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="aboutus.php"><i class="fas fa-info-circle"></i> About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="owner_profile.php"><i class="fas fa-user"></i> Profile</a>
+                            <a class="nav-link" href="profile.php"><i class="fas fa-user"></i> Profile</a>
                         </li>
                     </ul>
                     <form class="d-flex mt-3" role="search">

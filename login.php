@@ -2,7 +2,66 @@
 session_start();
 include("connect.php");
 
-// PHP code remains unchanged...
+// if (isset($_SESSION['user_name'])) {
+//     header("location:home.php");
+// }
+
+if (isset($_SESSION['owner_name'])) {
+    header("location:owner_home.php");
+}
+if (isset($_POST['btnsubmit'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $select = "SELECT user_id,user_name,password FROM tbl_user WHERE user_name='$username'";
+    $vselect = "SELECT owner_id,owner_name,password FROM tbl_owners WHERE owner_name='$username'";
+    $check = mysqli_query($connect, $select);
+    $vcheck = mysqli_query($connect, $vselect);
+    $result = mysqli_fetch_assoc($check);
+    $vresult = mysqli_fetch_assoc($vcheck);
+    $userid = $result['user_id'];
+    $user = $result['user_name'];
+    $encpass = $result['password'];
+
+    $veid = $vresult['owner_id'];
+    $vuser = $vresult['owner_name'];
+    $vencpass = $vresult['password'];
+
+    if (mysqli_num_rows($check) > 0) {
+       
+        $fpass = md5($password);
+        if ($fpass == $encpass) {
+           
+            $_SESSION['user_name'] = $username;
+            $_SESSION['users_id'] =  $userid;
+
+            header("location:landingpage.php");
+        } else {
+            echo '<script>alert("Either Username Or Password Is Wrong")</script>';
+         
+        }
+    }
+
+    if (mysqli_num_rows($vcheck) > 0) {
+        $fpass = md5($password);
+        if ($fpass == $vencpass) {
+           
+            $_SESSION['owner_name'] = $username;
+            $_SESSION['owner_id'] = $veid;
+            header("location:owner_home.php");
+        } 
+    } else {
+        echo '<script>alert("Either Username Or Password Is Wrong")</script>';
+    }
+
+    if ($username=="admin" && $password=="Krup@l1") {
+            header("location:admin.php");
+            $_SESSION['admin'] = $password;
+    } else {
+        echo '<script>alert("Either Username Or Password Is Wrong")</script>';
+       
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

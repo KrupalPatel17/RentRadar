@@ -40,165 +40,131 @@ if (isset($_POST['btnsubmit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RentRadar - Verify Email</title>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
         body {
-            background-color: #f45b69;
-            font-family: "Asap", sans-serif;
+            background-color: #EAF6F6;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        .login {
-            overflow: hidden;
-            background-color: white;
-            padding: 40px 30px 30px 30px;
-            border-radius: 10px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 400px;
-            -webkit-transform: translate(-50%, -50%);
-            -moz-transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            -o-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-            -webkit-transition: -webkit-transform 300ms, box-shadow 300ms;
-            -moz-transition: -moz-transform 300ms, box-shadow 300ms;
-            transition: transform 300ms, box-shadow 300ms;
-            box-shadow: 5px 10px 10px rgba(2, 128, 144, 0.2);
+        .verify {
+            background-color: #FFFFFF;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            transition: transform 0.3s ease;
         }
 
-        .login::before,
-        .login::after {
-            content: "";
-            position: absolute;
-            width: 800px;
-            height: 800px;
-            border-top-left-radius: 40%;
-            border-top-right-radius: 45%;
-            border-bottom-left-radius: 35%;
-            border-bottom-right-radius: 40%;
-            z-index: -1;
+        .verify:hover {
+            transform: scale(1.02);
         }
 
-        .login::before {
-            left: 40%;
-            bottom: -130%;
-            background-color: rgba(69, 105, 144, 0.15);
-            -webkit-animation: wawes 6s infinite linear;
-            -moz-animation: wawes 6s infinite linear;
-            animation: wawes 6s infinite linear;
+        .verify h1 {
+            color: #333333;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 24px;
         }
 
-        .login::after {
-            left: 35%;
-            bottom: -125%;
-            background-color: rgba(2, 128, 144, 0.2);
-            -webkit-animation: wawes 7s infinite;
-            -moz-animation: wawes 7s infinite;
-            animation: wawes 7s infinite;
+        .verify h5 {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 20px;
         }
 
-        .login>input {
-            font-family: "Asap", sans-serif;
-            display: block;
-            border-radius: 5px;
+        .verify input {
+            width: calc(100% - 40px);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #CCCCCC;
             font-size: 16px;
-            background: white;
+            transition: border-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .verify input:focus {
+            border-color: #009688;
+            outline: none;
+        }
+
+        .verify button {
             width: 100%;
-            border: 0;
-            padding: 10px 10px;
-            margin: 15px -10px;
-            box-shadow: -2px 2px 3px black;
-        }
-
-        .login>button {
-            font-family: "Asap", sans-serif;
-            cursor: pointer;
-            color: #fff;
+            padding: 12px;
+            background-color: #009688;
+            color: white;
             font-size: 16px;
-            text-transform: uppercase;
-            width: 80px;
-            border: 0;
-            padding: 10px 0;
-            margin-top: 10px;
-            margin-left: -5px;
-            border-radius: 5px;
-            background-color: #f45b69;
-            -webkit-transition: background-color 300ms;
-            -moz-transition: background-color 300ms;
-            transition: background-color 300ms;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
-        .login>button:hover {
-            background-color: #f24353;
+        .verify button:hover {
+            background-color: #00796B;
+            transform: scale(1.05);
         }
 
-        @-webkit-keyframes wawes {
-            from {
-                -webkit-transform: rotate(0);
-            }
-
-            to {
-                -webkit-transform: rotate(360deg);
-            }
+        .verify p {
+            margin-top: 15px;
+            font-size: 14px;
         }
 
-        @-moz-keyframes wawes {
-            from {
-                -moz-transform: rotate(0);
-            }
-
-            to {
-                -moz-transform: rotate(360deg);
-            }
-        }
-
-        @keyframes wawes {
-            from {
-                -webkit-transform: rotate(0);
-                -moz-transform: rotate(0);
-                -ms-transform: rotate(0);
-                -o-transform: rotate(0);
-                transform: rotate(0);
-            }
-
-            to {
-                -webkit-transform: rotate(360deg);
-                -moz-transform: rotate(360deg);
-                -ms-transform: rotate(360deg);
-                -o-transform: rotate(360deg);
-                transform: rotate(360deg);
-            }
-        }
-
-        a {
+        .verify a {
+            color: #009688;
             text-decoration: none;
-            color:blue;
-            font-weight: bold;
-            
+            font-weight: 600;
         }
-      
-    </style>
 
+        .verify a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .verify {
+                padding: 30px;
+                width: 95%;
+            }
+
+            .verify input {
+                font-size: 14px;
+            }
+
+            .verify button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <form  class="login" name="signupForm" action="" method="POST">
-        <h1>RentRadar</h1>
-        <h5>To verify your email, we've sent a One Time<br>
-          Password (OTP) to <u><?php if (isset($_SESSION['email'])) {
-                                  echo $_SESSION['email'];
+    <form class="verify" name="verificationForm" action="" method="POST">
+        <h1>Verify Your Email</h1>
+
+        <h5>We've sent a One Time Password (OTP) to <u><?php if (isset($_SESSION['email'])) {
+                                    echo $_SESSION['email'];
                                 } else {
-                                  echo $_SESSION['vemail'];
-                                }  ?> </u></h5>
-        <input type="text" placeholder="OTP" name="otp" />
+                                    echo $_SESSION['vemail'];
+                                } ?></u></h5>
 
-        <button type="Submit"  id="button" name="btnsubmit" > SUBMIT </button>
+        <input type="text" placeholder="Enter OTP" name="otp" required>
 
+        <button type="submit" name="btnSubmit">Submit</button>
     </form>
-
-   
 </body>
 
 </html>
+

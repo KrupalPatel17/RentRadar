@@ -35,8 +35,8 @@ if (mysqli_num_rows($result) > 0) {
         <td>{$row["pincode"]}</td><td>{$row["members"]}</td>
         <td>{$row["furnishing"]}</td><td>{$row["rent"]}</td>
         <td class='i'> &nbsp<button class='edit-btn'  data-id='{$row["house_id"]}'>
-        <span class='material-symbols-outlined' id='edit'>edit</span> <span class='tooltiptext'>Edit Details</span></button>&nbsp
-        <button class='delete-btn' data-id='{$row["house_id"]}'><span class='material-symbols-outlined' >delete</span> <span class='tooltiptext'>Delete Product</span></button>&nbsp</td></tr>";
+         <a href='updatehouse.php?pid={$row["house_id"]}'><span class='material-symbols-outlined' id='edit'>edit</span> <span class='tooltiptext'>Edit Details</span></a></button>&nbsp
+        <button class='delete-btn' data-id='{$row["house_id"]}'><span class='material-symbols-outlined' >delete</span> <span class='tooltiptext'>Delete House</span></button>&nbsp</td></tr>";
     }
 
 

@@ -1,9 +1,9 @@
 <?php
 session_start();
 include("connect.php");
-// if (!isset($_SESSION['vusername'])) {
-//   header("location:login.php");
-// }
+if (!isset($_SESSION['owner_name'])) {
+  header("location:login.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +23,7 @@ include("connect.php");
         }
 
         .body {
-            background-color: #2d3e4e;
+            background-color: darkgray;
             padding-top: 9%;
         }
 
@@ -47,7 +47,7 @@ include("connect.php");
         }
 
         #tbl_data thead th {
-            background-color: #A569BD;
+            background-color: #009688;
         }
 
         .table-hover tbody tr:nth-child(even) td {
@@ -302,7 +302,7 @@ include("connect.php");
     <center>
         <div id="modal">
             <div id="modal_form">
-                <h2>Add Product To Auction</h2>
+                <h2>Update House Details</h2>
                 <table cellpading="10" width="100%">
 
                 </table>
@@ -314,7 +314,7 @@ include("connect.php");
         <?php include("owner_nav.php"); ?>
         <div class="container">
             <center>
-                <h2 class="text-center mb-4">Product Table</h2>
+                <h2 class="text-center mb-4" style="color: black;font-weight: bold;">Listed Homes</h2>
             </center>
             <table class="table table-bordered table-striped table-hover" id="tbl_data">
                 <thead>
@@ -391,23 +391,23 @@ include("connect.php");
 
                 });
 
-                $(document).on("click", ".edit-btn", function(ele) {
-                    ele.preventDefault();
-                    $("#modal").show();
-                    var sid = $(this).data("id");
-                    $.ajax({
-                        url: "ajax/ajaxupdate.php",
-                        type: "POST",
-                        data: {
-                            ides: sid
-                        },
-                        success: function(data) {
-                            $("#modal_form table").html(data);
+                // $(document).on("click", ".edit-btn", function(ele) {
+                //     ele.preventDefault();
+                //     $("#modal").show();
+                //     var sid = $(this).data("id");
+                //     $.ajax({
+                //         url: "ajax/ajaxupdate.php",
+                //         type: "POST",
+                //         data: {
+                //             ides: sid
+                //         },
+                //         success: function(data) {
+                //             $("#modal_form table").html(data);
 
-                        }
+                //         }
 
-                    })
-                });
+                //     })
+                // });
 
 
                 $("#close-btn").on("click", function() {
@@ -429,40 +429,48 @@ include("connect.php");
                 // });
 
 
-                // $(document).on("click", "#btnsubmit", function() {
-                //     var aid = $(this).data("aid");
-                //     var sprice = $('#sprice').val();
-                //     var date = $('#date').val();
-                //     var time = $('#time').val();
+                $(document).on("click", "#btnsubmit", function() {
+                    var aid = $(this).data("aid");
+                    var housenum = $('#housenum').val();
+                    var socname = $('#socname').val();
+                    var land = $('#land').val();
+                    var state = $('#state').val();
+                    var city = $('#city').val();
+                    var pincode = $('#pincode').val();
+                    var members = $('#members').val();
+                    var furnishing = $('#furnishing').val();
+                    var rent = $('#rent').val();
+                    var time = $('#time').val();
+                    var time = $('#time').val();
 
-                //     if (sprice.trim() === "") {
-                //         alert("Please Enter Auction Starting Price");
-                //     } else if (date.trim() === "") {
-                //         alert("Please Enter Auction Date");
-                //     } else if (time.trim() === "") {
-                //         alert("Please Enter Auction Time");
-                //     } else {
-                //         $.ajax({
-                //             url: "ajax_auction_insert.php",
-                //             type: "POST",
-                //             data: {
-                //                 aids: aid,
-                //                 stprice: sprice,
-                //                 adate: date,
-                //                 atime: time
-                //             },
-                //             success: function(data) {
-                //                 console.log(data);
-                //                 if (data == 1) {
-                //                     alert("Product Add To Auction");
-                //                     $("#modal").hide();
-                //                 } else {
-                //                     alert("Product Can't Add To Auctions");
-                //                 }
-                //             }
-                //         });
-                //     }
-                // });
+                    if (sprice.trim() === "") {
+                        alert("Please Enter Auction Starting Price");
+                    } else if (date.trim() === "") {
+                        alert("Please Enter Auction Date");
+                    } else if (time.trim() === "") {
+                        alert("Please Enter Auction Time");
+                    } else {
+                        $.ajax({
+                            url: "ajax_auction_insert.php",
+                            type: "POST",
+                            data: {
+                                aids: aid,
+                                stprice: sprice,
+                                adate: date,
+                                atime: time
+                            },
+                            success: function(data) {
+                                console.log(data);
+                                if (data == 1) {
+                                    alert("Product Add To Auction");
+                                    $("#modal").hide();
+                                } else {
+                                    alert("Product Can't Add To Auctions");
+                                }
+                            }
+                        });
+                    }
+                });
             });
         </script>
     </form>

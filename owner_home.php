@@ -63,15 +63,16 @@ if (isset($_POST['btnadd'])) {
 
         body {
             padding-top: 52%;
-            background-color: #f0f2f5;
+            background-color: black;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+         
         }
 
         .form-container {
-            background-color: #ffffff;
+            background-color: #ffffff87;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -118,7 +119,7 @@ if (isset($_POST['btnadd'])) {
         .form-container button {
             width: 100%;
             padding: 12px;
-            background-color: #007bff;
+            background-color: #009688;
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -129,7 +130,7 @@ if (isset($_POST['btnadd'])) {
         }
 
         .form-container button:hover {
-            background-color: #0056b3;
+            background-color: #009688;
         }
 
         .row select,
@@ -161,7 +162,7 @@ if (isset($_POST['btnadd'])) {
 </head>
 
 
-<body>
+<body style="background-color: darkgray;">
     <?php include("owner_nav.php"); ?>
 
     <div class="form-container">

@@ -5,12 +5,8 @@ include("connect.php");
 if (!isset($_SESSION['user_name'])) {
     header("location:login.php");
 }
-
-// Fetch all states for the dropdown
-$stateQuery = "SELECT DISTINCT state FROM tbl_house";
-$stateResult = $connect->query($stateQuery);
+$user_id=$_SESSION['users_id'];
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,7 +33,7 @@ $stateResult = $connect->query($stateQuery);
             border: 1px solid black;
         }
 
-        .filter-container input {
+        .filter-container input{
             border: 1px solid black;
         }
 
@@ -60,19 +56,15 @@ $stateResult = $connect->query($stateQuery);
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             color: #333;
-            height: 390px;
-            /* Fixed height for the house block */
-            overflow: hidden;
-            /* Prevent content overflow */
+            height: 390px; /* Fixed height for the house block */
+            overflow: hidden; /* Prevent content overflow */
         }
 
         .product img {
             width: 100%;
-            height: 200px;
-            /* Fixed image height */
+            height: 200px; /* Fixed image height */
             display: block;
-            object-fit: cover;
-            /* Maintain image aspect ratio */
+            object-fit: cover; /* Maintain image aspect ratio */
             border-radius: 10px;
             margin-bottom: 15px;
         }
@@ -139,7 +131,7 @@ $stateResult = $connect->query($stateQuery);
 </head>
 
 <body id="b">
-    <form action="" method="POST">
+<form action="" method="POST">
         <?php include "navbar.php"; ?>
 
         <!-- Filter Section -->
@@ -192,11 +184,10 @@ $stateResult = $connect->query($stateQuery);
         </div>
 
         <div id="filtered-houses" class="products-container clearfix">
-            <?php include "ajax/filter_houses.php"; ?> 
+            <?php include "ajax/watchlistfilter_houses.php"; ?> 
         </div>
 
     </form>
-
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
     $(document).ready(function() {
@@ -208,7 +199,7 @@ $stateResult = $connect->query($stateQuery);
             // Only make the AJAX request if both state and city are selected
             if (state && city) {
                 $.ajax({
-                    url: 'ajax/filter_houses.php', // PHP file to get houses based on filter
+                    url: 'ajax/watchlistfilter_houses.php', // PHP file to get houses based on filter
                     method: 'POST',
                     data: { state: state, city: city },
                     success: function(response) {
@@ -218,7 +209,7 @@ $stateResult = $connect->query($stateQuery);
             } else {
                 // If no filters are selected, reload all houses
                 $.ajax({
-                    url: 'ajax/filter_houses.php',
+                    url: 'ajax/watchlistfilter_houses.php',
                     method: 'POST',
                     data: {}, // Empty data to load all houses
                     success: function(response) {
@@ -235,8 +226,7 @@ $stateResult = $connect->query($stateQuery);
     });
 </script>
 
-
-    <script>
+<script>
         const stateCityMap = {
             'Andhra Pradesh': ['Visakhapatnam', 'Vijayawada', 'Guntur'],
             'Arunachal Pradesh': ['Itanagar', 'Tawang', 'Ziro'],

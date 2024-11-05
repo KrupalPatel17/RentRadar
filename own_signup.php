@@ -97,162 +97,144 @@ if (isset($_POST['btnsubmit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>RentRadar - Owner SignUp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
         body {
-            background-color: #f45b69;
-            font-family: "Asap", sans-serif;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #EAF6F6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         .login {
-            overflow: hidden;
-            background-color: white;
-            padding: 40px 30px 30px 30px;
-            border-radius: 10px;
+            background-color: #FFFFFF;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .login:hover {
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+            transform: scale(1.02);
+        }
+
+        .login h1 {
+            color: #333333;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-container input {
+            width: calc(100% - 40px);
+            padding: 10px 10px 10px 40px;
+            border-radius: 8px;
+            border: 1px solid #CCCCCC;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-container i {
             position: absolute;
+            left: 10px;
             top: 50%;
-            left: 50%;
-            width: 400px;
-            -webkit-transform: translate(-50%, -50%);
-            -moz-transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            -o-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-            -webkit-transition: -webkit-transform 300ms, box-shadow 300ms;
-            -moz-transition: -moz-transform 300ms, box-shadow 300ms;
-            transition: transform 300ms, box-shadow 300ms;
-            box-shadow: 5px 10px 10px rgba(2, 128, 144, 0.2);
+            transform: translateY(-50%);
+            color: #888888;
+            font-size: 18px;
         }
 
-        .login::before,
-        .login::after {
-            content: "";
-            position: absolute;
-            width: 500px;
-            height: 900px;
-            border-top-left-radius: 40%;
-            border-top-right-radius: 45%;
-            border-bottom-left-radius: 35%;
-            border-bottom-right-radius: 40%;
-            z-index: -1;
+        .input-container input:focus {
+            border-color: #009688;
+            outline: none;
         }
 
-        .login::before {
-            left: 40%;
-            bottom: -130%;
-            background-color: rgba(69, 105, 144, 0.15);
-            -webkit-animation: wawes 6s infinite linear;
-            -moz-animation: wawes 6s infinite linear;
-            animation: wawes 6s infinite linear;
-        }
-
-        .login::after {
-            left: 35%;
-            bottom: -125%;
-            background-color: rgba(2, 128, 144, 0.2);
-            -webkit-animation: wawes 7s infinite;
-            -moz-animation: wawes 7s infinite;
-            animation: wawes 7s infinite;
-        }
-
-        .login>input {
-            font-family: "Asap", sans-serif;
-            display: block;
-            border-radius: 5px;
-            font-size: 16px;
-            background: white;
+        .login button {
             width: 100%;
-            border: 0;
-            padding: 10px 10px;
-            margin: 15px -10px;
-        }
-
-        .login>#button {
-            font-family: "Asap", sans-serif;
-            cursor: pointer;
-            color: #fff;
+            padding: 12px;
+            background-color: #009688;
+            color: white;
             font-size: 16px;
-            text-transform: uppercase;
-            width: 80px;
-            border: 0;
-            padding: 10px 0;
-            margin-top: 10px;
-            margin-left: -5px;
-            border-radius: 5px;
-            background-color: #f45b69;
-            -webkit-transition: background-color 300ms;
-            -moz-transition: background-color 300ms;
-            transition: background-color 300ms;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
-        .login>#button:hover {
-            background-color: #f24353;
+        .login button:hover {
+            background-color: #00796B;
+            transform: scale(1.05);
         }
 
-        @-webkit-keyframes wawes {
-            from {
-                -webkit-transform: rotate(0);
-            }
-
-            to {
-                -webkit-transform: rotate(360deg);
-            }
-        }
-
-        @-moz-keyframes wawes {
-            from {
-                -moz-transform: rotate(0);
-            }
-
-            to {
-                -moz-transform: rotate(360deg);
-            }
-        }
-
-        @keyframes wawes {
-            from {
-                -webkit-transform: rotate(0);
-                -moz-transform: rotate(0);
-                -ms-transform: rotate(0);
-                -o-transform: rotate(0);
-                transform: rotate(0);
-            }
-
-            to {
-                -webkit-transform: rotate(360deg);
-                -moz-transform: rotate(360deg);
-                -ms-transform: rotate(360deg);
-                -o-transform: rotate(360deg);
-                transform: rotate(360deg);
-            }
-        }
-
-        a {
+        .login a {
+            color: #009688;
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.6);
-            position: absolute;
-            right: 10px;
-            bottom: 10px;
-            font-size: 12px;
+            font-size: 14px;
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .login a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .login {
+                padding: 30px;
+                width: 95%;
+            }
         }
     </style>
-
 </head>
 
 <body>
-    <form class="login" name="signupForm" action="" method="POST">
-        <h1>RentRadar</h1>
-        <input type="text" id="username" name="username" placeholder="UserName">
-        <input type="email" id="email" name="email" placeholder="Email">
-        <input type="number" id="number" name="number"  placeholder="Phone Number">
-        <input type="text" id="address" name="address"placeholder="Address">
-        <input type="password" id="password" name="password" placeholder="Password">
-        <input type="password" placeholder="Confirm Password">
-        <input type="submit" value="Sign Up" id="button" name="btnsubmit" />
+    <form class="login" name="owner_signupForm" action="" method="POST">
+        <h1>RentRadar - Owner SignUp</h1>
+        <div class="input-container">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username" name="username" placeholder="UserName" required>
+        </div>
+        <div class="input-container">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="input-container">
+            <i class="fas fa-phone"></i>
+            <input type="tel" id="number" name="number" placeholder="Phone Number" required>
+        </div>
+        <div class="input-container">
+            <i class="fas fa-home"></i>
+            <input type="text" id="address" name="address" placeholder="Address" required>
+        </div>
+        <div class="input-container">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+        </div>
+        <div class="input-container">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Confirm Password" required>
+        </div>
+        <button type="submit" id="button" name="btnsubmit">Sign Up</button>
+        <a href="login.php" style="color: black;">Already have an account? <b style="color: #009688;">Login here</b></a>
     </form>
-
-   
 </body>
 
 </html>
+
