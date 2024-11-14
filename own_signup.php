@@ -6,7 +6,6 @@ use PHPMailer\PHPMailer\Exception;
 
 include("connect.php");
 
-
 if (isset($_SESSION['username'])) {
     header("location:home.php");
 }
@@ -17,76 +16,89 @@ if (isset($_POST['btnsubmit'])) {
     $phone = $_POST['number'];
     $address = $_POST['address'];
     $password = $_POST['password'];
-    $encpassword = md5($password);
-    $select = "select user_id from tbl_user where user_name='$username'";
-    $vselect = "select owner_id from tbl_owners where owner_name='$username'";
-    $result = mysqli_query($connect, $select);
-    $vresult = mysqli_query($connect, $vselect);
-    $count = mysqli_num_rows($result);
-    $vcount = mysqli_num_rows($vresult);
-    if ($count > 0) {
-        echo '<script>alert("Error: User Name Is Already Registered Please Take Another")</script>';
-    } elseif ($vcount > 0) {
-        echo '<script>alert("Error: User Name Is Already Registered Please Take Another")</script>';
+    $confirmpassword = $_POST['confirmpassword'];
+    
+    if ($password !== $confirmpassword) {
+        echo '<script>alert("Passwords do not match.")</script>';
     } else {
-        $insert = "insert into tbl_owners values(0,'$username','$email',$phone,'$address','$encpassword')";
-        if (mysqli_query($connect, $insert)) {
+        $encpassword = md5($password);
 
-            $otp = rand(111111, 999999);
+        // Handle file upload
+        $filename = $_FILES["uploadfile"]["name"];
+        $tmpname = $_FILES["uploadfile"]["tmp_name"];
+        $folder = "uploads/" . $filename;
 
-            $body = "<p> Dear $username,<br>
-
-                Thank you for choosing bid Bazzere for your online shopping needs.<br>
-                To ensure the security of your account, we have initiated the verification process for your email address.<br><br>
-
-                Please find below your one-time password (OTP) for verification:<br><br>        
-
-                <b>OTP: <u>$otp</u></b><br><br>
-
-                Kindly use this OTP to verify your email address by entering it on the verification page.<br> 
-                If you did not initiate this process or have any concerns regarding the security of your <br>
-                account, please contact our customer support immediately.<br><br>
-
-                We appreciate your cooperation in maintaining the security of your account. If you <br>
-                have any further questions or require assistance, feel free to reach out to us.<br><br>
-
-                Best regards,<br><br>
-
-                Bid Bazzer Your Shopping Patner</p>";
-
-            require 'Mailer/vendor/autoload.php';
-            $mail = new PHPMailer(true);
-
-            try {
-                //Server settings
-                $mail->isSMTP();
-                $mail->Host       = 'smtp.gmail.com';
-                $mail->SMTPAuth   = true;
-                $mail->Username   = 'patelkrupal679@gmail.com'; // Your Gmail email address
-                $mail->Password   = 'gvoi wbtn whnu joic';        // Your Gmail password
-                $mail->SMTPSecure = 'tls';
-                $mail->Port = 587;
-
-                //Recipients
-                $mail->setFrom('patelkrupal679@gmail.com', 'Bid Bazzer');
-                $mail->addAddress($email,  $username);
-
-                //Content
-                $mail->isHTML(true);
-                $mail->Subject = ' Your One-Time Password (OTP) for Verification';
-                $mail->Body    = "<p> $body </p>";
-
-                $mail->send();
-                echo 'Message has been sent';
-            } catch (Exception $e) {
-                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        // Check if a file is uploaded
+        if ($filename != '') {
+            // Check file size (max 100 MB)
+            if ($_FILES["uploadfile"]["size"] > 100 * 1024 * 1024) {
+                echo '<script>alert("Error: File size exceeds the 100 MB limit.")</script>';
+            } else {
+                // Move the file to the server folder
+                if (!move_uploaded_file($tmpname, $folder)) {
+                    echo '<script>alert("Error: File upload failed.")</script>';
+                }
             }
+        }
 
-            $_SESSION['votp'] = $otp;
-            $_SESSION['vemail'] = $email;
-            header("location:verification.php");
+        // Check if the username already exists in both user and owner tables
+        $select = "SELECT user_id FROM tbl_user WHERE user_name='$username'";
+        $vselect = "SELECT owner_id FROM tbl_owners WHERE owner_name='$username'";
+        $result = mysqli_query($connect, $select);
+        $vresult = mysqli_query($connect, $vselect);
+        $count = mysqli_num_rows($result);
+        $vcount = mysqli_num_rows($vresult);
+
+        if ($count > 0 || $vcount > 0) {
+            echo '<script>alert("Username is already taken. Please choose another.")</script>';
         } else {
-            echo "Fail" or die(mysqli_error($connect));
+            // Insert the data into tbl_owners table
+            $insert = "INSERT INTO tbl_owners (owner_id, owner_name, email, phone, addresh, password, uploads, status) 
+                       VALUES (0, '$username', '$email', '$phone', '$address', '$encpassword', '$folder', 0)";
+
+            if (mysqli_query($connect, $insert)) {
+                // Generate OTP for email verification
+                $otp = rand(111111, 999999);
+                $body = "<html><body style='font-family: Arial, sans-serif; color: #333;'> 
+                        <h2 style='color: #009688;'>Welcome to RentRadar, $username!</h2>
+                        <p>Thank you for joining RentRadar. To complete your signup and activate your account, please verify your email address using the OTP below:</p>
+                        <h3 style='background-color: #f0f0f0; padding: 10px; color: #009688; text-align: center;'>$otp</h3>
+                        <p>Enter this OTP on the verification page to finalize your registration. If you didn’t initiate this request, please reach out to our support team immediately.</p>
+                        <p>Thank you for trusting RentRadar for your rental needs. We're excited to have you on board!</p>
+                        <p>Best regards,<br>RentRadar Team</p>
+                        </body></html>";
+
+                require 'Mailer/vendor/autoload.php';
+                $mail = new PHPMailer(true);
+
+                try {
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'patelkrupal679@gmail.com';
+                    $mail->Password = 'gvoi wbtn whnu joic';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+
+                    $mail->setFrom('patelkrupal679@gmail.com', 'RentRadar');
+                    $mail->addAddress($email, $username);
+
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Your RentRadar Account Verification OTP';
+                    $mail->Body = $body;
+
+                    $mail->send();
+                    echo 'Verification email has been sent.';
+                } catch (Exception $e) {
+                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
+
+                $_SESSION['votp'] = $otp;
+                $_SESSION['vemail'] = $email;
+                header("location:verification.php");
+            } else {
+                echo "Error: " . mysqli_error($connect);
+            }
         }
     }
 }
@@ -100,6 +112,7 @@ if (isset($_POST['btnsubmit'])) {
     <title>RentRadar - Owner SignUp</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
+        /* Add your custom styles here */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
         body {
@@ -205,23 +218,23 @@ if (isset($_POST['btnsubmit'])) {
 </head>
 
 <body>
-    <form class="login" name="owner_signupForm" action="" method="POST">
+    <form class="login" name="owner_signupForm" action="" method="POST" enctype="multipart/form-data" onsubmit="return validatePhoneNumber();">
         <h1>RentRadar - Owner SignUp</h1>
         <div class="input-container">
             <i class="fas fa-user"></i>
-            <input type="text" id="username" name="username" placeholder="UserName" required>
+            <input type="text" id="username" name="username" placeholder="UserName" value="<?php echo isset($_POST['username']) ? $_POST['username'] : ''; ?>" required>
         </div>
         <div class="input-container">
             <i class="fas fa-envelope"></i>
-            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="email" id="email" name="email" placeholder="Email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" required>
         </div>
         <div class="input-container">
             <i class="fas fa-phone"></i>
-            <input type="tel" id="number" name="number" placeholder="Phone Number" required>
+            <input type="tel" id="number" name="number" placeholder="Phone Number" value="<?php echo isset($_POST['number']) ? $_POST['number'] : ''; ?>" required>
         </div>
         <div class="input-container">
             <i class="fas fa-home"></i>
-            <input type="text" id="address" name="address" placeholder="Address" required>
+            <input type="text" id="address" name="address" placeholder="Address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : ''; ?>" required>
         </div>
         <div class="input-container">
             <i class="fas fa-lock"></i>
@@ -229,12 +242,29 @@ if (isset($_POST['btnsubmit'])) {
         </div>
         <div class="input-container">
             <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Confirm Password" required>
+            <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" required>
         </div>
-        <button type="submit" id="button" name="btnsubmit">Sign Up</button>
-        <a href="login.php" style="color: black;">Already have an account? <b style="color: #009688;">Login here</b></a>
+        <div class="input-container">
+            <i class="fas fa-file-upload"></i>
+            <input type="file" name="uploadfile">
+        </div>
+        <button type="submit" name="btnsubmit">Submit</button>
+        <a href="login.php">Already have an account? Login</a>
     </form>
+
+    <script>
+        // Function to validate phone number (Indian phone number format)
+        function validatePhoneNumber() {
+            var phone = document.getElementById('number').value;
+            var phonePattern = /^[6-9]\d{9}$/;
+
+            if (!phone.match(phonePattern)) {
+                alert('Please enter a valid 10-digit Indian phone number starting with 6, 7, 8, or 9.');
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
 
 </html>
-

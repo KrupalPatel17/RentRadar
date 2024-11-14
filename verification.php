@@ -162,7 +162,7 @@ if (isset($_POST['btnsubmit'])) {
 
         <input type="text" placeholder="Enter OTP" name="otp" required>
 
-        <button type="submit" name="btnSubmit">Submit</button>
+        <button type="submit" name="btnsubmit">Submit</button>
     </form>
 </body>
 
