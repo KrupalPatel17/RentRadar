@@ -1,5 +1,13 @@
 <?php
 session_start();
+if (isset($_POST['btnlogout'])) {
+    unset($_SESSION['owner_name']);
+    unset($_SESSION['owner_id']);
+    header("Location: login.php");
+    exit(); 
+}
+
+
 include("connect.php");
 if (!isset($_SESSION['owner_name'])) {
   header("location:login.php");
@@ -299,6 +307,7 @@ if (!isset($_SESSION['owner_name'])) {
 </head>
 
 <body class="body">
+    <?php include("owner_nav.php"); ?>
     <center>
         <div id="modal">
             <div id="modal_form">
@@ -311,7 +320,6 @@ if (!isset($_SESSION['owner_name'])) {
         </div>
     </center>
     <form action="" method="POST">
-        <?php include("owner_nav.php"); ?>
         <div class="container">
             <center>
                 <h2 class="text-center mb-4" style="color: black;font-weight: bold;">Listed Homes</h2>

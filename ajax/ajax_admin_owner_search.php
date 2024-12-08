@@ -1,10 +1,8 @@
 <?php
-
 $search_val = $_POST["search"];
 
 session_start();
 include("../connect.php");
-$id = $_SESSION['vender_id'];
 $sql = "SELECT * FROM tbl_owners WHERE (owner_id LIKE '%{$search_val}%' OR owner_name LIKE '%{$search_val}%')";
 $result = mysqli_query($connect, $sql) or die("SQL FAIELD");
 
@@ -56,5 +54,4 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     echo '<h1 style="color:black">NO USER ARE FOUND</h1>';
 }
-
 ?>

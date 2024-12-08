@@ -53,8 +53,8 @@ if (isset($_POST['btnsubmit'])) {
             echo '<script>alert("Username is already taken. Please choose another.")</script>';
         } else {
             // Insert the data into tbl_owners table
-            $insert = "INSERT INTO tbl_owners (owner_id, owner_name, email, phone, addresh, password, uploads, status) 
-                       VALUES (0, '$username', '$email', '$phone', '$address', '$encpassword', '$folder', 0)";
+            $insert = "INSERT INTO tbl_owners (owner_id, owner_name, email, phone, addresh, password, uploads, status, verification) 
+                       VALUES (0, '$username', '$email', '$phone', '$address', '$encpassword', '$folder', 0,0)";
 
             if (mysqli_query($connect, $insert)) {
                 // Generate OTP for email verification
@@ -254,16 +254,16 @@ if (isset($_POST['btnsubmit'])) {
 
     <script>
         // Function to validate phone number (Indian phone number format)
-        function validatePhoneNumber() {
-            var phone = document.getElementById('number').value;
-            var phonePattern = /^[6-9]\d{9}$/;
+        // function validatePhoneNumber() {
+        //     var phone = document.getElementById('number').value;
+        //     var phonePattern = /^[6-9]\d{9}$/;
 
-            if (!phone.match(phonePattern)) {
-                alert('Please enter a valid 10-digit Indian phone number starting with 6, 7, 8, or 9.');
-                return false;
-            }
-            return true;
-        }
+        //     if (!phone.match(phonePattern)) {
+        //         alert('Please enter a valid 10-digit Indian phone number starting with 6, 7, 8, or 9.');
+        //         return false;
+        //     }
+        //     return true;
+        // }
     </script>
 </body>
 

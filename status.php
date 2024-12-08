@@ -1,5 +1,12 @@
 <?php
 session_start();
+if (isset($_POST['btnlogout'])) {
+    unset($_SESSION['user_name']);
+    unset($_SESSION['users_id']);
+    header("Location: login.php");
+    exit(); 
+}
+
 include("connect.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

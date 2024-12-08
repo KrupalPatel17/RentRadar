@@ -175,6 +175,14 @@ if (isset($_POST['btnlogout'])) {
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+    document.querySelector('.btn-logout').addEventListener('click', function (event) {
+        if (!confirm('Are you sure you want to log out?')) {
+            event.preventDefault();
+        }
+    });
+</script>
 </body>
 
 </html>

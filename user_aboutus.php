@@ -135,7 +135,7 @@ include("connect.php");
     </style>
 </head>
 
-<?php include("owner_nav.php"); ?>
+<?php include("navbar.php"); ?>
 <body id="b">
 
     <div class="container">
@@ -146,7 +146,7 @@ include("connect.php");
             <p>We believe in creating a trustworthy environment where both tenants and property owners can connect effortlessly. Let us help you find your dream home today!</p>
         </div>
 
-        <button onclick="window.location.href='owner_home.php'" id="btnabout">Explore Houses</button>
+        <button onclick="window.location.href='home.php'" id="btnabout">Explore Houses</button>
     </div>
 
 </body>

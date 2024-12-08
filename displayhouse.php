@@ -1,5 +1,12 @@
 <?php
 session_start();
+if (isset($_POST['btnlogout'])) {
+    unset($_SESSION['user_name']);
+    unset($_SESSION['users_id']);
+    header("Location: login.php");
+    exit(); 
+}
+
 include("connect.php");
 
 if (!isset($_SESSION['user_name'])) {
@@ -174,8 +181,8 @@ $pid = $_GET['pids'];
     </style>
 </head>
 
+<?php include "navbar.php"; ?>
 <body id="b">
-    <?php include "navbar.php"; ?>
     <div class="product-container">
         <div class="product-image">
             <?php

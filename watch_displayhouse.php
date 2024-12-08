@@ -1,5 +1,12 @@
 <?php
 session_start();
+if (isset($_POST['btnlogout'])) {
+    unset($_SESSION['user_name']);
+    unset($_SESSION['users_id']);
+    header("Location: login.php");
+    exit(); 
+}
+
 include("connect.php");
 
 if (!isset($_SESSION['user_name'])) {
@@ -207,9 +214,7 @@ $pid = $_GET['pids'];
                     <button class="button button-watchlist-remove" data-id="<?php echo $row['house_id']; ?>">
                         <i class="ri-delete-bin-line"></i> Remove from Watchlist
                     </button>
-                    <a href="contact_owner.php" class="button button-contact">
-                        <i class="ri-chat-3-line"></i> Contact Owner
-                    </a>
+                    <button data-id='<?php echo $row["house_id"]; ?>' class="button button-contact"><i class="ri-chat-3-line"></i> Contact Owner</button>
                 </div>
 
 
@@ -274,6 +279,26 @@ $pid = $_GET['pids'];
                             window.location.href = "watchlist.php";
                         } else {
                             alert("Error removing from watchlist.");
+                        }
+                    }
+                });
+            });
+
+            $(".button-contact").click(function() {
+                var id = $(this).data("id");
+                $.ajax({
+                    url: "ajax/insert_into_contact.php",
+                    type: "POST",
+                    data: {
+                        ids: id
+                    },
+                    success: function(data) {
+                        if (data === "added") {
+                            alert("Your Request Has Submited To Owner.");
+                        } else if (data === "exists") {
+                            alert("Your Request Has Been Already Submited To Owner.");
+                        } else {
+                            alert("Error adding to Request.");
                         }
                     }
                 });

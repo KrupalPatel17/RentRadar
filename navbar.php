@@ -158,7 +158,7 @@ if (isset($_POST['btnlogout'])) {
                                 <a class="nav-link" href="status.php"><i class="fas fa-users"></i> Status</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="aboutus.php"><i class="fas fa-info-circle"></i> About Us</a>
+                                <a class="nav-link" href="user_aboutus.php"><i class="fas fa-info-circle"></i> About Us</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="profile.php"><i class="fas fa-user"></i> Profile</a>
@@ -176,6 +176,15 @@ if (isset($_POST['btnlogout'])) {
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+    document.querySelector('.btn-logout').addEventListener('click', function (event) {
+        if (!confirm('Are you sure you want to log out?')) {
+            event.preventDefault();
+        }
+    });
+</script>
+
 </body>
 
 </html>

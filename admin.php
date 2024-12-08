@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <title>Welcome Back, Admin</title>
     <style>
-        body {
+        /* body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             background-color: darkgray;
             color: #333;
             text-align: center;
-        }
+        } */
 
         #welcome {
             margin-top: 5%;
@@ -24,12 +24,12 @@
             font-weight: bold;
         }
 
-        .block {
+        .blockk {
             width: 22%;
             height: 160px;
             border-radius: 10px;
             margin: 20px;
-            display: inline-block;
+            display: inline-blockk;
             background-color: #009688;
             color: #fff;
             font-size: 24px;
@@ -42,20 +42,20 @@
             border:1px solid black;
         }
 
-        .block i {
+        .blockk i {
             font-size: 2rem;
             margin-right: 8px;
         }
 
-        .block:hover {
+        .blockk:hover {
             transform: scale(1.05);
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
             background-color: #00796B;
             border:2px solid whitesmoke;
         }
-
-        .block span {
-            display: block;
+        
+        .blockk span {
+            display: blockk;
             margin-top: 8px;
             font-size: 1rem;
             font-size: 25px;
@@ -64,14 +64,12 @@
             padding: 1px 10px;
             background-color: red;
         }
-       #b{
-        background-color: darkgray;
-       }
-    </style>
+        #b{
+            background-color: darkgray;
+        }
+        </style>
 </head>
-<?php
-include("admin_navbar.php");
-?>
+<?php include("admin_navbar.php");?>
 <body id="b">
     <?php
 
@@ -101,25 +99,20 @@ include("admin_navbar.php");
     // $auction_count = $row_auctions['auction_count'];
 
     mysqli_close($connect);
-
-
     ?>
-    <?php 
-    include("admin_navbar.php");
-    include("connect.php"); 
-    ?>
+  
     <center>
         <div id="welcome">Hello, Welcome Back Admin</div>
         <div>
-            <a href="admin_user.php" class="block">
+            <a href="admin_user.php" class="blockk">
                 <i class="ri-user-3-fill"></i> Users &nbsp <span> <?php echo $user_count; ?></span>
             </a>
-            <a href="admin_owner.php" class="block">
+            <a href="admin_owner.php" class="blockk">
                 <i class="ri-store-3-fill"></i> Owners &nbsp <span> <?php echo $owner_count; ?></span>
             </a>
         </div>
         <div>
-            <a href="admin_house.php" class="block">
+            <a href="admin_house.php" class="blockk">
                 <i class="ri-home-4-fill"></i> Houses &nbsp <span> <?php echo $house_count; ?></span>
             </a>
         </div>

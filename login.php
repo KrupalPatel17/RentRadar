@@ -9,8 +9,12 @@ if (isset($_SESSION['owner_name'])) {
 if (isset($_POST['btnsubmit'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $select = "SELECT user_id,user_name,password FROM tbl_user WHERE user_name='$username'";
-    $vselect = "SELECT owner_id,owner_name,password,status FROM tbl_owners WHERE owner_name='$username'";
+
+    // User login query
+    $select = "SELECT user_id, user_name, password, verification FROM tbl_user WHERE user_name='$username'";
+    // Owner login query
+    $vselect = "SELECT owner_id, owner_name, password, status, verification FROM tbl_owners WHERE owner_name='$username'";
+
     $check = mysqli_query($connect, $select);
     $vcheck = mysqli_query($connect, $vselect);
     $result = mysqli_fetch_assoc($check);
@@ -20,11 +24,16 @@ if (isset($_POST['btnsubmit'])) {
     if (mysqli_num_rows($check) > 0) {
         $fpass = md5($password);
         if ($fpass == $result['password']) {
-            $_SESSION['user_name'] = $username;
-            $_SESSION['users_id'] = $result['user_id'];
-            header("location:landingpage.php");
+            if ($result['verification'] == 1) {
+                $_SESSION['user_name'] = $username;
+                $_SESSION['users_id'] = $result['user_id'];
+                header("location:landingpage.php");
+            } else {
+                echo '<script>alert("Your account is not verified. Please verify your email.");</script>';
+                echo '<script>window.location.href="verification.php";</script>';
+            }
         } else {
-            echo '<script>alert("Either Username Or Password Is Wrong")</script>';
+            echo '<script>alert("Either Username Or Password Is Wrong");</script>';
         }
     }
 
@@ -32,23 +41,30 @@ if (isset($_POST['btnsubmit'])) {
     if (mysqli_num_rows($vcheck) > 0) {
         $fpass = md5($password);
         if ($fpass == $vresult['password']) {
-            $owner_status = $vresult['status'];  // Get the status of the owner
-            $_SESSION['owner_name'] = $username;
-            $_SESSION['owner_id'] = $vresult['owner_id'];
+            if ($vresult['verification'] == 1) { // Check if verified
+                $owner_status = $vresult['status']; // Get the status of the owner
+              
 
-            // Check the status of the owner
-            if ($owner_status == 0) {
-                echo '<script>alert("Your profile is pending for verification. Please wait for approval.")</script>';
-            } elseif ($owner_status == 1) {
-                header("location:owner_home.php");
+                // Check the status of the owner
+                if ($owner_status == 0) {
+                    echo '<script>alert("Your profile is pending for verification. Please wait for approval.");</script>';
+                   
+                } elseif ($owner_status == 1) {
+                    header("location:owner_home.php");
+                    $_SESSION['owner_name'] = $username;
+                    $_SESSION['owner_id'] = $vresult['owner_id'];
+                } else {
+                    echo '<script>alert("Your profile has been declined. Please contact support.");</script>';
+                }
             } else {
-                echo '<script>alert("Your profile has been declined. Please contact support.")</script>';
+                echo '<script>alert("Your account is not verified. Please verify your email.");</script>';
+                echo '<script>window.location.href="verification.php";</script>';
             }
         } else {
-            echo '<script>alert("Either Username Or Password Is Wrong")</script>';
+            echo '<script>alert("Either Username Or Password Is Wrong");</script>';
         }
     } else {
-        echo '<script>alert("Either Username Or Password Is Wrong")</script>';
+        echo '<script>alert("Either Username Or Password Is Wrong");</script>';
     }
 
     // Admin login
@@ -65,7 +81,6 @@ if (isset($_POST['btnsubmit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentRadar - Login</title>
-
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
@@ -181,7 +196,6 @@ if (isset($_POST['btnsubmit'])) {
         }
     }
 </style>
-
 </head>
 
 <body>

@@ -176,14 +176,15 @@ $user_id=$_SESSION['users_id'];
                     <label for="city">City</label>
                     <select id="city" class="form-control" name="city" required>
                         <option value="">Select City</option>
-
+                        
                     </select>
                 </div>
             </div>
-
+            
         </div>
-
+        
         <div id="filtered-houses" class="products-container clearfix">
+           <center> <h2><b style="color:white; text-shadow:1px 1px 2px black">Watch List</b></h2></center>
             <?php include "ajax/watchlistfilter_houses.php"; ?> 
         </div>
 

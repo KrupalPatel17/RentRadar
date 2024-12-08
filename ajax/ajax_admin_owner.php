@@ -1,7 +1,6 @@
 <?php
 session_start();
 include("../connect.php");
-$uid = $_SESSION['users_id'];
 $select = "SELECT * FROM tbl_owners";
 $result = mysqli_query($connect, $select);
 $i = 0;

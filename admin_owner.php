@@ -1,8 +1,17 @@
 <?php
 session_start();
 
+// Logout functionality
+if (isset($_POST['btnlogout'])) {
+    unset($_SESSION['admin']);
+    header("Location: login.php");
+    exit(); 
+}
+
+// Check if admin is logged in
 if (!isset($_SESSION['admin'])) {
-    header("location:login.php");
+    header("Location: login.php");
+    exit(); 
 }
 ?>
 <!DOCTYPE html>
@@ -13,7 +22,7 @@ if (!isset($_SESSION['admin'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Admin User Management</title>
+    <title>Admin Owner Management</title>
 
     <style>
         body {
@@ -196,24 +205,21 @@ if (!isset($_SESSION['admin'])) {
         .modal-content {
             transition: transform 0.25s ease;
         }
-        
-        .doc-image{
-            cursor: pointer;
-  
-        }
 
+        .doc-image {
+            cursor: pointer;
+
+        }
     </style>
 </head>
 
 <body id="b">
-    <?php include("admin_navbar.php"); ?>
-
+    <?php include("admin_navbar.php");?>
     <section>
         <h1 style="padding-top: 80px;">Manage Owners</h1>
         <div class="table-container">
             <input type="text" id="search" class="search-bar" placeholder="Search Owners...">
             <div id="tbl_rep">
-
             </div>
         </div>
     </section>
@@ -233,77 +239,77 @@ if (!isset($_SESSION['admin'])) {
             loadTable();
 
             $(document).on("click", ".doc-image", function() {
-                var largeSrc = $(this).data('large-src'); // Get the large image source
-                var caption = $(this).attr('alt'); // Get the caption (optional)
-                $('#modalImage').attr('src', largeSrc); // Set the image in the modal
-                $('#caption').text(caption); // Set the caption in the modal
-                $('#imageModal').fadeIn(); // Display the modal
+                var largeSrc = $(this).data('large-src'); 
+                var caption = $(this).attr('alt');
+                $('#modalImage').attr('src', largeSrc); 
+                $('#caption').text(caption); 
+                $('#imageModal').fadeIn(); 
             });
 
             // Close modal
             $(document).on("click", ".close", function() {
-                $('#imageModal').fadeOut(); // Hide the modal
+                $('#imageModal').fadeOut(); 
             });
-    
 
-        // Approve/Deny Status
-        $(document).on("click", ".status-btn", function() {
-            var id = $(this).data("id");
-            var action = $(this).hasClass("approve") ? "approve" : "deny";
 
-            $.ajax({
-                url: "ajax/ajax_admin_owner_status_update.php",
-                type: "POST",
-                data: {
-                    uid: id,
-                    action: action
-                },
-                success: function(response) {
-                    if (response == "success") {
-                        loadTable();
-                    } else {
-                        alert("Unable to update status.");
-                    }
-                }
-            });
-        });
+            $(document).on("click", ".status-btn", function() {
+                var id = $(this).data("id");
+                var action = $(this).hasClass("approve") ? "approve" : "deny";
 
-        // Delete Owner
-        $(document).on("click", ".delete-btn", function() {
-            var id = $(this).data("id");
-            var confirmation = confirm("Are you sure you want to delete this user?");
-            if (confirmation) {
                 $.ajax({
-                    url: "ajax/ajax_admin_owner_delete.php",
+                    url: "ajax/ajax_admin_owner_status_update.php",
                     type: "POST",
                     data: {
-                        uid: id
+                        uid: id,
+                        action: action
                     },
-                    success: function(data) {
-                        if (data == 1) {
+                    success: function(response) {
+                        if (response == "success") {
                             loadTable();
                         } else {
-                            alert("Unable to delete user.");
+                            alert("Unable to update status.");
                         }
                     }
                 });
-            }
-        });
+            });
 
-        // Search Owners
-        $("#search").on("keyup", function() {
-        var search_term = $(this).val();
-        $.ajax({
-            url: "ajax/ajax_admin_owner_search.php",
-            type: "POST",
-            data: {
-                search: search_term
-            },
-            success: function(data) {
-                $("#tbl_rep").html(data);
-            }
-        });
-        });
+            // Delete Owner
+            $(document).on("click", ".delete-btn", function() {
+                var id = $(this).data("id");
+                var confirmation = confirm("Are you sure you want to delete this user?");
+                if (confirmation) {
+                    $.ajax({
+                        url: "ajax/ajax_admin_owner_delete.php",
+                        type: "POST",
+                        data: {
+                            uid: id
+                        },
+                        success: function(data) {
+                            if (data == 1) {
+                                loadTable();
+                            } else {
+
+                                alert("Unable to delete user.");
+                            }
+                        }
+                    });
+                }
+            });
+
+            // Search Owners
+            $("#search").on("keyup", function() {
+                var search_term = $(this).val();
+                $.ajax({
+                    url: "ajax/ajax_admin_owner_search.php",
+                    type: "POST",
+                    data: {
+                        search: search_term
+                    },
+                    success: function(data) {
+                        $("#tbl_rep").html(data);
+                    }
+                });
+            });
         });
     </script>
 

@@ -29,30 +29,20 @@ if (isset($_POST['btnsubmit'])) {
     } elseif ($vcount > 0) {
         echo '<script>alert("Error: User Name Is Already Registered Please Take Another")</script>';
     } else {
-        $insert = "insert into tbl_user values(0,'$username','$email',$phone,'$address','$encpassword')";
+        $insert = "insert into tbl_user values(0,'$username','$email',$phone,'$address','$encpassword',0)";
         if (mysqli_query($connect, $insert)) {
 
             $otp = rand(111111, 999999);
 
-            $body = "<p> Dear $username,<br>
+            $body = "<html><body style='font-family: Arial, sans-serif; color: #333;'> 
+            <h2 style='color: #009688;'>Welcome to RentRadar, $username!</h2>
+            <p>Thank you for joining RentRadar. To complete your signup and activate your account, please verify your email address using the OTP below:</p>
+            <h3 style='background-color: #f0f0f0; padding: 10px; color: #009688; text-align: center;'>$otp</h3>
+            <p>Enter this OTP on the verification page to finalize your registration. If you didn’t initiate this request, please reach out to our support team immediately.</p>
+            <p>Thank you for trusting RentRadar for your rental needs. We're excited to have you on board!</p>
+            <p>Best regards,<br>RentRadar Team</p>
+            </body></html>";
 
-                Thank you for choosing bid Bazzere for your online shopping needs.<br>
-                To ensure the security of your account, we have initiated the verification process for your email address.<br><br>
-
-                Please find below your one-time password (OTP) for verification:<br><br>        
-
-                <b>OTP: <u>$otp</u></b><br><br>
-
-                Kindly use this OTP to verify your email address by entering it on the verification page.<br> 
-                If you did not initiate this process or have any concerns regarding the security of your <br>
-                account, please contact our customer support immediately.<br><br>
-
-                We appreciate your cooperation in maintaining the security of your account. If you <br>
-                have any further questions or require assistance, feel free to reach out to us.<br><br>
-
-                Best regards,<br><br>
-
-                Bid Bazzer Your Shopping Patner</p>";
 
             require 'Mailer/vendor/autoload.php';
             $mail = new PHPMailer(true);
@@ -68,7 +58,7 @@ if (isset($_POST['btnsubmit'])) {
                 $mail->Port = 587;
 
                 //Recipients
-                $mail->setFrom('patelkrupal679@gmail.com', 'Bid Bazzer');
+                $mail->setFrom('patelkrupal679@gmail.com', 'RentRadar');
                 $mail->addAddress($email,  $username);
 
                 //Content

@@ -1,38 +1,59 @@
 <?php
 session_start();
+include("connect.php");
+
 if (isset($_SESSION['username'])) {
-  header("location:home.php");
+    header("location:home.php");
 }
 
 if (isset($_POST['btnsubmit'])) {
-  $cotp = $_POST['otp'];
+    $cotp = $_POST['otp'];
 
-  if (isset($_SESSION['otp'])) {
-    $otp = $_SESSION['otp'];
-    if ($otp == $cotp) {
+    // Check if OTP is set and valid
+    if (isset($_SESSION['otp'])) {
+        $otp = $_SESSION['otp'];
+        $email = $_SESSION['email'];
+        if ($otp == $cotp) {
+            // Update verification field in the database
+            $updateQuery = "UPDATE tbl_user SET verification = 1 WHERE email = ?";
+            $stmt = $connect->prepare($updateQuery);
+            $stmt->bind_param("s", $email);
 
-      header("location:login.php");
-      unset($_SESSION['otp']);
-      unset($_SESSION['email']);
-    } else {
-      echo '<script>alert("Your OTP Was Wrong Please Try Again")</script>';
+            if ($stmt->execute()) {
+                unset($_SESSION['otp']);
+                unset($_SESSION['email']);
+                header("location:login.php");
+                exit();
+            } else {
+                echo '<script>alert("Error updating verification status. Please try again.")</script>';
+            }
+        } else {
+            echo '<script>alert("Your OTP Was Wrong Please Try Again")</script>';
+        }
     }
-  }
 
-  if (isset($_SESSION['votp'])) {
-    $votp = $_SESSION['votp'];
-    if ($votp == $cotp) {
+    if (isset($_SESSION['votp'])) {
+        $votp = $_SESSION['votp'];
+        $vemail = $_SESSION['vemail'];
+        if ($votp == $cotp) {
+            // Update verification field in the database
+            $updateQuery = "UPDATE tbl_owners SET verification = 1 WHERE email = ?";
+            $stmt = $connect->prepare($updateQuery);
+            $stmt->bind_param("s", $vemail);
 
-      header("location:login.php");
-      unset($_SESSION['votp']);
-      unset($_SESSION['vemail']);
-    } else {
-      echo '<script>alert("Your OTP Was Wrong Please Try Again")</script>';
+            if ($stmt->execute()) {
+                unset($_SESSION['votp']);
+                unset($_SESSION['vemail']);
+                header("location:login.php");
+                exit();
+            } else {
+                echo '<script>alert("Error updating verification status. Please try again.")</script>';
+            }
+        } else {
+            echo '<script>alert("Your OTP Was Wrong Please Try Again")</script>';
+        }
     }
-  }
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -154,11 +175,12 @@ if (isset($_POST['btnsubmit'])) {
     <form class="verify" name="verificationForm" action="" method="POST">
         <h1>Verify Your Email</h1>
 
-        <h5>We've sent a One Time Password (OTP) to <u><?php if (isset($_SESSION['email'])) {
-                                    echo $_SESSION['email'];
-                                } else {
-                                    echo $_SESSION['vemail'];
-                                } ?></u></h5>
+        <h5>We've sent a One Time Password (OTP) to <u><?php 
+            if (isset($_SESSION['email'])) {
+                echo $_SESSION['email'];
+            } else {
+                echo $_SESSION['vemail'];
+            } ?></u></h5>
 
         <input type="text" placeholder="Enter OTP" name="otp" required>
 
@@ -167,4 +189,3 @@ if (isset($_POST['btnsubmit'])) {
 </body>
 
 </html>
-

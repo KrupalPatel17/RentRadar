@@ -4,7 +4,6 @@ $search_val = $_POST["search"];
 
 session_start();
 include("../connect.php");
-$id = $_SESSION['vender_id'];
 $sql = "SELECT * FROM tbl_house WHERE (state LIKE '%{$search_val}%' OR city LIKE '%{$search_val}%')";
 $result = mysqli_query($connect, $sql) or die("SQL FAILED");
 

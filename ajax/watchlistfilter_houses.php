@@ -23,7 +23,7 @@ if ($result->num_rows > 0) {
         echo "<img src='" . $row['img'] . "' alt='" . $row['name'] . "'>";
         echo "<p><strong>State:</strong> " . $row['state'] . "&nbsp &nbsp &nbsp &nbsp &nbsp" . "<strong>City:</strong> " . $row['city'] . "</p>";
         echo "<p><strong>Rent:</strong> ₹" . $row['rent'] . "</p>";
-        echo "<a href='displayhouse.php?pids={$row["house_id"]}' class='btn-view'>View Details</a>";
+        echo "<a href='watch_displayhouse.php?pids={$row["house_id"]}' class='btn-view'>View Details</a>";
         echo "</div>";
         $count++;
     }

@@ -4,7 +4,6 @@ $search_val = $_POST["search"];
 
 session_start();
 include("../connect.php");
-$id = $_SESSION['vender_id'];
 $sql = "SELECT * FROM tbl_user WHERE (user_id LIKE '%{$search_val}%' OR user_name LIKE '%{$search_val}%')";
 $result = mysqli_query($connect, $sql) or die("SQL FAILED");
 

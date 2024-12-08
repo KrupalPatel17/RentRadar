@@ -17,11 +17,13 @@ if (isset($_SESSION['owner_id'])) {
 if (isset($_POST['btnadd'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $number = $_POST['number'];
+    $numberr = $_POST['numberr'];
     $address = $_POST['address'];
 
-    $update_query = "UPDATE tbl_owners SET owner_name='$username', email='$email', phone='$number', addresh='$address' WHERE owner_id=$own_id";
+    $update_query = "UPDATE tbl_owners SET owner_name='$username', email='$email', phone=$numberr, addresh='$address' WHERE owner_id=$own_id";
 
+    // echo $update_query;
+    // exit();
     if (mysqli_query($connect, $update_query)) {
         echo "<script>alert('Profile updated successfully!');</script>";
         header("Refresh:0");
@@ -168,7 +170,7 @@ if (isset($_POST['btnadd'])) {
             </div>
             <div class="input-container">
                 &nbsp<i class="fas fa-phone"></i> &nbspPhone Number :
-                <input type="tel" id="number" name="number" placeholder="Phone Number" value="<?php echo $data['phone'] ?>" required>
+                <input type="number" id="number" name="numberr" placeholder="Phone Number" value="<?php echo $data['phone'] ?>" required>
             </div>
             <div class="input-container">
                 &nbsp<i class="fas fa-home"></i> &nbspAddress :
